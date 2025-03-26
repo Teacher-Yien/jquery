@@ -1,0 +1,101 @@
+
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <script src="https://cdn.tailwindcss.com"></script>  
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>  
+    <title>Document</title>  
+    <style>  
+        @import url('https://fonts.googleapis.com/css2?family=Siemreap&display=swap');  
+
+        * {  
+            font-family: "Siemreap", sans-serif;  
+            font-weight: 400;  
+            font-style: normal;  
+        }  
+
+        .image-transition {  
+            transition: opacity 0.3s ease-in-out;  
+        }  
+
+        .fade-out {  
+            opacity: 0.01;  
+        }  
+    </style>  
+</head>  
+<body>  
+    <div class="content-change-picture w-[70%] m-auto p-2">  
+        <img class="image-transition w-[800px] h-[400px] object-fit-cover rounded m-auto" src="https://placehold.co/800x400" alt="">  
+        <div class="gruop-button mt-5 m-auto w-[65%]">  
+            <button class="btn-1 bg-gray-300 text-white text-2xl px-5 py-3 rounded-md">រូបភាព ១</button>  
+            <button class="btn-2 bg-gray-300 text-white text-2xl px-5 py-3 rounded-md">រូបភាព ២</button>  
+            <button class="btn-3 bg-gray-300 text-white text-2xl px-5 py-3 rounded-md">រូបភាព ៣</button>  
+            <button class="btn-4 bg-gray-300 text-white text-2xl px-5 py-3 rounded-md">រូបភាព ៤</button>  
+            <button class="btn-5 bg-gray-300 text-white text-2xl px-5 py-3 rounded-md">រូបភាព ៥</button>  
+        </div>  
+    </div>  
+</body>  
+<script>  
+    $(function () {  
+        const images = [  
+            "https://images.pexels.com/photos/31167771/pexels-photo-31167771/free-photo-of-silhouetted-figure-holding-sun-at-tropical-beach-sunset.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",  
+            "https://images.pexels.com/photos/3601461/pexels-photo-3601461.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",  
+            "https://images.pexels.com/photos/10685302/pexels-photo-10685302.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",  
+            "https://images.pexels.com/photos/2105579/pexels-photo-2105579.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",  
+            "https://images.pexels.com/photos/1868776/pexels-photo-1868776.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"  
+        ];  
+
+        let currentIndex = 0;  
+
+        function changeImage(newSource) {  
+            let img = $("img");  
+            img.addClass("fade-out");  
+            setTimeout(() => {  
+                img.attr("src", newSource);  
+                img.removeClass("fade-out");  
+            }, 400);  
+        }  
+
+        function showImage(index) {  
+            changeImage(images[index]);  
+        }  
+
+        $(".btn-1").click(() => { showImage(0); });  
+        $(".btn-2").click(() => { showImage(1); });  
+        $(".btn-3").click(() => { showImage(2); });  
+        $(".btn-4").click(() => { showImage(3); });  
+        $(".btn-5").click(() => { showImage(4); });  
+
+        // Touch action for swiping  
+        let touchStartX = 0;  
+        let touchEndX = 0;  
+
+        $("body").on("touchstart", function (event) {  
+            touchStartX = event.changedTouches[0].screenX;  
+        });  
+
+        $("body").on("touchend", function (event) {  
+            touchEndX = event.changedTouches[0].screenX;  
+            handleGesture();  
+        });  
+
+        function handleGesture() {  
+            if (touchEndX < touchStartX) {  
+                // Swipe left  
+                if (currentIndex < images.length - 1) {  
+                    currentIndex++;  
+                    showImage(currentIndex);  
+                }  
+            }  
+            if (touchEndX > touchStartX) {  
+                // Swipe right  
+                if (currentIndex > 0) {  
+                    currentIndex--;  
+                    showImage(currentIndex);  
+                }  
+            }  
+        }  
+    });  
+</script>  
+</html>  
